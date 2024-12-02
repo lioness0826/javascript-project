@@ -93,11 +93,6 @@ position:absolute;
     background-color:#e41da0 ;
 }
 
-#player-1:hover,#player-2:hover,
-#round-1:hover,#round-2:hover
-{
-    box-shadow: 0 0 5px 5px aliceblue;
-}
 
 
 #card-field-1,#card-field-2{position: absolute;
@@ -252,6 +247,7 @@ background-color: #e41da0;}
     width: 100%;
     background-color:#e41da0 ;
     height: 50px;
+    border: 3px solid rgb(45, 45, 45);
 }
 
 #start{
@@ -261,6 +257,7 @@ background-color: #e41da0;}
     width: 100%;
     background-color:#e41da0 ;
     height: 50px;
+    border: 3px solid rgb(45, 45, 45);
 }
 
 #set{top: 250px;
