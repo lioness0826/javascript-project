@@ -114,12 +114,60 @@ This will be for tracking the actual scoring of points, betting, and similar.
 
 */
 
-function initializePoints() {
+//Point Variable Definitions
 
-    const defaultPoints = 1000;
-    let playerOnePoints = defaultPoints;
-    let playerTwoPoints = defaultPoints;
+let pointCount = {
+
+    playerOne: 1000,
+    playerTwo: 1000,
+
+}
+
+// Bet Variable Definitions
+
+let betOne = {
+
+    playerOne: 0,
+    playerTwo: 0
+
+}
+
+let betTwo = {
     
-};
+    playerOne: 0,
+    playerTwo: 0
+    
+    }
+
+// Going to be using 'playerNum' to represent which player is having their points changed.
+
+//Function below is for deducting a hundred points from forfeiting in the first round.
+
+function startForfeit(playerNum) {
+
+    if (playerNum == 1) {
+        return pointCount.playerOne -= 100;
+    } else if (playerNum == 2) {
+        return pointCount.playerTwo -= 100;
+    }
+
+}
+
+function secondForfeit(playerNum, bet) {
+
+    if (playerNum == 1) {
+
+        pointCount.playerOne -= bet.playerOne;
+        pointCount.playerTwo += bet.playerOne;
+
+    } else if (playerNum == 2) {
+        
+        pointCount.playerTwo -= bet.playerTwo;
+        pointCount.playerOne += bet.playerTwo;
+
+    };
+
+}
+
 
 //End (Eric)
