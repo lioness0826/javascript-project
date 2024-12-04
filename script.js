@@ -139,6 +139,19 @@ let betTwo = {
     
     }
 
+// Hand Class Definition
+
+class hand {
+    constructor() {
+
+        getShuffledDeck();
+
+        this.player = player;
+        this.cards = [];
+
+    }
+}
+
 // Going to be using 'playerNum' to represent which player is having their points changed.
 
 //Function below is for deducting a hundred points from forfeiting in the first round.
@@ -169,5 +182,32 @@ function secondForfeit(playerNum, bet) {
 
 }
 
+
+
+function getHand () {
+
+
+
+
+
+    while (hand.playerOneHand.length < 3) {
+
+        hand.playerOneHand.push(playingDeck.deck.pop())
+
+    }
+
+    while (hand.playerTwoHand.length < 3) {
+
+        hand.playerTwoHand.push(playingDeck.deck.pop())
+        
+    }
+
+    return hand;
+    
+}
+
+function getScore (hand) {
+
+}
 
 //End (Eric)
