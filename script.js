@@ -1,3 +1,4 @@
+/*
 const $ = (selector) => document.querySelector(selector);
 
 function resetPlayer(){
@@ -27,6 +28,8 @@ $("#reset").addEventListener("mousedown", press);
 $("#start").addEventListener("mouseup", release);
 $("#reset").addEventListener("mouseup", release);
 
+*/
+
 // Card Management (Eric)
 
 /*
@@ -55,6 +58,8 @@ class Deck {
 
         const types = ['Ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King'];
         const suits = ['Spades', 'Clubs', 'Diamonds', 'Hearts'];
+        const handOne = [];
+        const handTwo = [];
         let i = 0
 
 
@@ -73,38 +78,40 @@ class Deck {
 
     }
 
+    getShuffledDeck() {
+
+        for (let i = this.deck.length - 1; i >= 0; i--) {
+    
+            let s = Math.floor(Math.random() * (i + 1));
+    
+            let loopTemp = this.deck[i];
+    
+            this.deck[i] = this.deck[s];
+            
+            this.deck[s] = loopTemp;
+
+            // console.log(this.deck[i])
+            // This is just here so I can uncomment this line and check in the console to make sure the shuffle works.
+            
+        }
+    
+    
+    }
+
 }                
 
 const playingDeck = new Deck();
+playingDeck.getShuffledDeck()
 
 /* 
 
-This will shuffle the deck from before, so we can pop a random
-card from the end of the deck after it's been shuffled. 
+The shuffling function was added to the Deck class as a method, if you need to shuffle the deck, you'd just do playingDeck.getShuffledDeck
 
 Otherwise if you try to pop a card, it'll always pop the same card from the end of the deck.
 
 The shuffle algorithm will shuffle the 'playingDeck.deck' array.
-Don't forget arrays start from zero, so the final card in the deck is 51, and the first is 0.
-
 
 */
-
-function getShuffledDeck() {
-
-    for (let i = playingDeck.deck.length - 1; i > 0; i--) {
-
-        let s = Math.floor(Math.random() * (i + 1));
-
-        let loopTemp = playingDeck.deck[i];
-
-        playingDeck.deck[i] = playingDeck.deck[s];
-
-        playingDeck.deck[s] = loopTemp;
-    }
-
-
-}
 
 // Point Tracking Code
 
@@ -141,16 +148,13 @@ let betTwo = {
 
 // Hand Class Definition
 
-class hand {
-    constructor() {
+let hand = {
 
-        getShuffledDeck();
-
-        this.player = player;
-        this.cards = [];
+        playerOneHand: [],
+        playerTwoHand: []
 
     }
-}
+
 
 // Going to be using 'playerNum' to represent which player is having their points changed.
 
@@ -206,8 +210,13 @@ function getHand () {
     
 }
 
+
 function getScore (hand) {
 
+
+
 }
+
+
 
 //End (Eric)
