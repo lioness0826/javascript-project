@@ -1,4 +1,4 @@
-
+// start button and 
 const $ = (selector) => document.querySelector(selector);
 
 function resetPlayer(){
