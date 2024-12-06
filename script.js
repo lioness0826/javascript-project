@@ -28,6 +28,8 @@ $("#reset").addEventListener("mousedown", press);
 $("#start").addEventListener("mouseup", release);
 $("#reset").addEventListener("mouseup", release);
 
+$("#reset").addEventListener("mouseup", confirmReset);
+
 
 
 // Card Management and Scoring (Eric)
@@ -363,3 +365,20 @@ function secondForfeit(playerNum, betOne) {
 }
 
 //End (Eric)
+
+//reset button
+function confirmReset(){
+    var reset = document.getElementById("reset")
+    reset.innerHTML = ("Are you sure?")
+    reset.style.fontSize = "1.9vw"
+    reset.removeEventListener("mouseup", confirmReset)
+    chReset()
+}
+
+function chReset(){
+    $("#reset").addEventListener("mousedown", reallyReset)
+}
+
+function reallyReset(){
+    location.reload()
+}
