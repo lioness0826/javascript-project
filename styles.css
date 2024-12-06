@@ -43,13 +43,13 @@ display: none;}
 
 
 
-#field-1,#field-2{width: 300px;
-height: 350px;
+#field-1,#field-2{width: 35%;
+aspect-ratio: 1.5/1;
 position:absolute;
 }
 
 #field-1{
-    left: 10%;
+    left: 2.5%;
     top: 120px;
     background: linear-gradient(to bottom, 
     #a994f8,#fb6bdc);
@@ -60,7 +60,7 @@ position:absolute;
 
 
 #field-2{
-    right:10%;
+    right:2.5%;
     top: 120px;
     background: linear-gradient(to bottom, 
     #a994f8,#fb6bdc);
@@ -70,10 +70,10 @@ position:absolute;
 }
 
 #player-1,#player-2{
-    font-size: 1.5em;
+    font-size: 2.5vw;
     font-family: 'ArcadeClassic', sans-serif;
     width: 40%;
-    height: 30px;
+    height: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,10 +83,10 @@ position:absolute;
 
 
 #round-1,#round-2{
-    font-size: 1.5em;
+    font-size: 2.5vw;
     font-family: 'ArcadeClassic', sans-serif;
     width: 40%;
-    height: 30px;
+    height: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,7 +97,7 @@ position:absolute;
 
 #card-field-1,#card-field-2{position: absolute;
     border: 1px solid aliceblue;
-    top:50px;
+    top: 25%;
     aspect-ratio: 1 / 0.5;
     left: 3%;
     right: 3%;
@@ -202,10 +202,9 @@ padding: 10px 0;}
     position: absolute;
     left: 0%;
     right: 0%;
-    top:220px;
-    bottom: 20px;
+    top: 110%;
     display: grid;
-    grid-template-columns: 100px 100px ;
+    grid-template-columns: 40% 40% ;
     grid-template-rows: 50px 50px;
     justify-content: center;
     place-content: center;
@@ -268,4 +267,11 @@ background-color: #e41da0;}
     height: 100px;
     flex-direction: column;   
     border: 2px solid aliceblue; 
+}
+
+#card-field-1 > div > img, #card-field-2 > div > img{
+    width: 100%;
+}
+#card-field-1 > div:hover, #card-field-2 > div:hover{
+    width: 30%;
 }
