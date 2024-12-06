@@ -1,4 +1,4 @@
-/*
+
 const $ = (selector) => document.querySelector(selector);
 
 function resetPlayer(){
@@ -28,7 +28,7 @@ $("#reset").addEventListener("mousedown", press);
 $("#start").addEventListener("mouseup", release);
 $("#reset").addEventListener("mouseup", release);
 
-*/
+
 
 // Card Management and Scoring (Eric)
 
