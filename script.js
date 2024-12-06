@@ -30,16 +30,30 @@ $("#reset").addEventListener("mouseup", release);
 
 */
 
-// Card Management (Eric)
+// Card Management and Scoring (Eric)
 
 /*
 
-These classes set up the deck and the cards. The deck element also has attributes for both the type
-and suit, so it's easier to keep track of which card is which.
+-- METHODS AND FUNCTIONS --
 
+Below here is a list of methods you can use to set up the deck:
 
-The deck class will also have the methods for setting up the deck and playing. More details and stuff
-can be found underneath them in another comment.
+    
+playingDeck.getShuffledDeck() - Shuffles the Deck (Do this every time before you deal the cards)
+playingDeck.getHandOne() - Gets player one's hand
+playingDeck.getHandTwo() - Gets player two's hand
+playingDeck.emptyHand() - Empties the hands of both players and adds them back to the deck.
+
+// And the methods and functions here are for scoring and the game itself:
+
+playingDeck.getHandScores() - Returns the winner if no one forfeits, 1 if player 1 wins, 2 if player 2 wins, and 0 if it's a draw.
+startForfeit(playerNum) - If playerNum = 1, then player one forfeits and loses 100 points, if it equals 2, the same occurs for player 2.
+secondForfeit(playerNum, betOne) - Same as above, but it also takes the first round bets, and awards the points accordingly.
+
+-- VARIABLES --
+
+To update the bet numbers:
+
 
 */
 
@@ -157,12 +171,12 @@ class Deck {
 
     For three card poker, the best hands from top to bottom are:
     
-    Straight flush – three consecutive cards of the same suit
-    Three-of-a-kind – three cards of the same rank
-    Straight – three consecutive cards of mixed suits
-    Flush – three cards of the same suit
-    Pair – two cards of the same rank
-    High card
+    Straight flush – three consecutive cards of the same suit - 100000
+    Three-of-a-kind – three cards of the same rank - 10000
+    Straight – three consecutive cards of mixed suits - 1000
+    Flush – three cards of the same suit - 100
+    Pair – two cards of the same rank - 10
+    High card - 1 
 
     */
 
@@ -176,90 +190,105 @@ class Deck {
         let sndValTwo = this.handTwo[1].value
         let sndValThree = this.handTwo[2].value
 
-        //This is just to make writing the elif statments shorter and easier.
+        let handOneScore = 0
+        let handTwoScore = 0
+        let playerNumWin = 0
+
+        //These variables are just used to write these values in shorter form at times.
+
+        // Hand Type Calculations
         
         //Straight flush
-        //Three-of-a-kind
-        //Straight
-        //Flush
 
-        if(this.handOne[0].suit == this.handOne[1].suit & this.handOne[1].suit == this.handOne[2].suit) {
-            console.log("Flush, Player 1")
+        if(fstValOne + 1 === fstValTwo && fstValTwo + 1 === fstValThree && this.handOne[0].suit === this.handOne[1].suit
+            && this.handOne[1].suit === this.handOne[2].suit) {
+            handOneScore += 100000
+        }
+
+        if(sndValOne + 1 === sndValTwo && sndValTwo + 1 === sndValThree && this.handTwo[0].suit === this.handTwo[1].suit
+            && this.handTwo[1].suit === this.handTwo[2].suit) {
+            handTwoScore += 100000
+        }
+
+        //Three-of-a-kind
+
+        if (fstValOne === fstValTwo && fstValTwo === fstValThree) {
+            handOneScore += 10000
         }
 
         
-        if(this.handTwo[0].suit == this.handTwo[1].suit & this.handTwo[1].suit == this.handTwo[2].suit) {
-            console.log("Flush, Player 2")
+        if (sndValOne === sndValTwo && sndValTwo === sndValThree) {
+            handTwoScore += 10000
+        }
+
+        //Straight
+
+        if(fstValOne + 1 === fstValTwo && fstValTwo + 1 === fstValThree ) {
+            handOneScore += 1000
+        }
+
+        if(sndValOne + 1 === sndValTwo && sndValTwo + 1 === sndValThree ) {
+            handTwoScore += 1000
+        }
+
+        //Flush
+
+        if(this.handOne[0].suit === this.handOne[1].suit && this.handOne[1].suit === this.handOne[2].suit) {
+            handOneScore += 100
+        }
+
+        
+        if(this.handTwo[0].suit === this.handTwo[1].suit && this.handTwo[1].suit === this.handTwo[2].suit) {
+            handTwoScore += 100
         }
         //Pair      
         
         if(fstValOne === fstValTwo || fstValTwo === fstValThree || fstValOne === fstValThree) {
-            console.log("Pair, Player 1")
+            handOneScore += 10
         }
         if (sndValOne === sndValTwo || sndValTwo === sndValThree || sndValOne === sndValThree) {
-            console.log("Pair, Player 2")
+            handTwoScore += 10
         }
 
         //High card
         
         for (let i = 2; i >= 0;) {
 
-            if(this.handOne[i].value > this.handTwo[i].value) {
-                return console.log("High Card, Player 1")
+            if (this.handOne[i].value > this.handTwo[i].value) {
+                handOneScore += 1
 
             } else if(this.handOne[i].value < this.handTwo[i].value) {
-                return console.log("High Card, Player 2")
+                handTwoScore += 1
 
             }
-            
+
             i--
 
         }
 
-        /*
-        if (fstValThree > sndValThree) {
-            console.log("Player One Wins")
-        } else if (fstValThree < sndValThree) {
-            console.log("Player Two Wins") 
-        } else if (fstValTwo > sndValTwo) {
-            console.log("Player One Wins")
-        } else if (fstValTwo < sndValTwo) {
-            console.log("Player Two Wins")
-        } else if (fstValOne > sndValTwo) {
-            console.log("Player One Wins")
-        } else if (fstValOne < sndValTwo) {
-            console.log("Player Two Wins")
-        } else {console.log("Draw")}
-        */
+        if (handOneScore > handTwoScore) {
+            return playerNumWin = 1
+        } else if (handOneScore < handTwoScore) {
+            return playerNumWin = 2
+        } else {
+            return playerNumWin = 0
+        }
+
     }
 
 }                
 
 const playingDeck = new Deck();
+
 /* playingDeck.getShuffledDeck()
 playingDeck.getHandOne()
 playingDeck.getHandTwo()
 playingDeck.getHandScores() */
 
-for (let i = 1; i < 100; i++) {
-    console.log(i)
-    playingDeck.getShuffledDeck()
-    playingDeck.getHandOne()
-    playingDeck.getHandTwo()
-    playingDeck.getHandScores()
-    playingDeck.emptyHand()
-}
-
-/*  Below here is a list of methods you can use to set up the deck.
-
-    
-playingDeck.getShuffledDeck() - Shuffles the Deck (Do this every time before you deal the cards)
-playingDeck.getHandOne() - Gets player one's hand
-playingDeck.getHandTwo() - Gets player two's hand
-playingDeck.emptyHand() - Empties the hands of both players and adds them back to the deck.
 
 
-*/
+
+
 
 //Point Variable Definitions
 
@@ -270,7 +299,7 @@ let pointCount = {
 
 }
 
-// Bet Variable Definitions
+// Bet Variable Initialization
 
 let betOne = {
 
@@ -287,47 +316,50 @@ let betTwo = {
     }
 
 
+let finalBet = {
+
+    playerOne: 0,
+    playerTwo: 0
+
+}
+
+finalBet.playerOne = betOne.playerOne + betTwo.playerOne;
+finalBet.playerTwo = betOne.playerTwo + betTwo.playerTwo;
+
 // Going to be using 'playerNum' to represent which player is having their points changed.
 
 //Function below is for deducting a hundred points from forfeiting in the first round.
 
 function startForfeit(playerNum) {
 
-    if (playerNum == 1) {
+    if (playerNum === 1) {
         return pointCount.playerOne -= 100;
-    } else if (playerNum == 2) {
+    } else if (playerNum === 2) {
         return pointCount.playerTwo -= 100;
     }
 
+    playingDeck.emptyHand();
+    playingDeck.getShuffledDeck()
+
 }
 
-function secondForfeit(playerNum, bet) {
+function secondForfeit(playerNum, betOne) {
 
-    if (playerNum == 1) {
+    if (playerNum === 1) {
 
-        pointCount.playerOne -= bet.playerOne;
-        pointCount.playerTwo += bet.playerOne;
+        pointCount.playerOne -= betOne.playerOne;
+        pointCount.playerTwo += betOne.playerOne;
 
-    } else if (playerNum == 2) {
+    } else if (playerNum === 2) {
         
-        pointCount.playerTwo -= bet.playerTwo;
-        pointCount.playerOne += bet.playerTwo;
+        pointCount.playerTwo -= betOne.playerTwo;
+        pointCount.playerOne += betOne.playerTwo;
 
     };
 
-}
-
-
-
-
-
-
-function getScore (hand) {
-
-
+    playingDeck.emptyHand();
+    playingDeck.getShuffledDeck();
 
 }
-
-
 
 //End (Eric)
