@@ -259,7 +259,17 @@ function startGame() {
     playingDeck.getShuffledDeck()
     playingDeck.getHandOne()
     playingDeck.getHandTwo()
+    console.log(playingDeck.getHandScores())
     
+}
+
+//
+
+/* playingDeck.getShuffledDeck()
+playingDeck.getHandOne()
+playingDeck.getHandTwo()
+playingDeck.getHandScores() */
+
     // Query Selectors
 
     const cardOneImg = document.querySelector("#card-1-img")
@@ -290,16 +300,6 @@ function startGame() {
         cardSixthImg.src = `images/Cards/Fronts/${playingDeck.handTwo[2].suit}_${playingDeck.handTwo[2].type}.png`
 
     }
-}
-
-//
-
-/* playingDeck.getShuffledDeck()
-playingDeck.getHandOne()
-playingDeck.getHandTwo()
-playingDeck.getHandScores() */
-
-
 
 
 
@@ -312,6 +312,7 @@ let pointCount = {
     playerTwo: 1000,
 
 }
+pointCount.playerOne
 
 // Bet Variable Initialization
 
@@ -390,6 +391,7 @@ function resetPlayer(){
 function order() {
     resetPlayer();
     startGame();
+    flipRndOne();
   let randomOrder = Math.random();
   let currentPlayer = randomOrder < 0.5 ? "#player-1" : "#player-2";
  $(currentPlayer).style.boxShadow = "0 0 5px 5px aliceblue";
@@ -428,3 +430,24 @@ function chReset(){
 function reallyReset(){
     location.reload()
 }
+
+/*
+
+Lily
+
+Betting system and flipping cards.
+
+Get bets from HTML input and check that the second bet is not less than half of the first bet.
+
+Once both players have bet on round one, flip the second card and then let both players enter the bets again.
+
+After both players have bet on round two, flip the third card, and call 'playingDeck.getHandScores'.
+
+'1' means player one wins, '2' means player two wins, '0' means that no player has one.
+
+
+For flipping the cards, call flipRndTwo and flipRndThree
+
+*/
+
+
