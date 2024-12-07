@@ -1,35 +1,3 @@
-// start button and 
-const $ = (selector) => document.querySelector(selector);
-
-function resetPlayer(){
-    $("#player-1").style.boxShadow = "none";
-    $("#player-2").style.boxShadow = "none";
-}
-
-function order() {
-    resetPlayer();
-  let randomOrder = Math.random();
-  let currentPlayer = randomOrder < 0.5 ? "#player-1" : "#player-2";
- $(currentPlayer).style.boxShadow = "0 0 5px 5px aliceblue";
-}
-
-function press(event){
-   event.target.style.borderLeft="none";
-   event.target.style.borderTop="none";
-
-}
-
-function release(event){
-    event.target.style.border="3px solid rgb(45, 45, 45)";
-}
-$("#start").addEventListener("click", order);
-$("#start").addEventListener("mousedown", press);
-$("#reset").addEventListener("mousedown", press);
-$("#start").addEventListener("mouseup", release);
-$("#reset").addEventListener("mouseup", release);
-
-$("#reset").addEventListener("mouseup", confirmReset);
-
 
 
 // Card Management and Scoring (Eric)
@@ -51,6 +19,7 @@ playingDeck.emptyHand() - Empties the hands of both players and adds them back t
 playingDeck.getHandScores() - Returns the winner if no one forfeits, 1 if player 1 wins, 2 if player 2 wins, and 0 if it's a draw.
 startForfeit(playerNum) - If playerNum = 1, then player one forfeits and loses 100 points, if it equals 2, the same occurs for player 2.
 secondForfeit(playerNum, betOne) - Same as above, but it also takes the first round bets, and awards the points accordingly.
+startGame() - Starts the game and sets up the query selectors for the cards. Currently called by the start button.
 
 -- VARIABLES --
 
@@ -133,8 +102,6 @@ class Deck {
     
         }
 
-        this.handOne.sort((x, y) => x.value - y.value);
-
         return this.handOne
 
     }
@@ -147,7 +114,7 @@ class Deck {
             
         }
         
-        this.handTwo.sort((x, y) => x.value - y.value);
+
 
         return this.handTwo
         
@@ -183,6 +150,10 @@ class Deck {
     */
 
     getHandScores () {
+
+        
+        this.handOne.sort((x, y) => x.value - y.value);
+        this.handTwo.sort((x, y) => x.value - y.value);
 
         let fstValOne = this.handOne[0].value
         let fstValTwo = this.handOne[1].value
@@ -282,6 +253,47 @@ class Deck {
 
 const playingDeck = new Deck();
 
+//Game Start Function
+
+function startGame() {
+    playingDeck.getShuffledDeck()
+    playingDeck.getHandOne()
+    playingDeck.getHandTwo()
+    
+    // Query Selectors
+
+    const cardOneImg = document.querySelector("#card-1-img")
+    const cardTwoImg = document.querySelector("#card-2-img") 
+    const cardThreeImg = document.querySelector("#card-3-img")
+
+    const cardFourImg = document.querySelector("#card-4-img")
+    const cardFifthImg = document.querySelector("#card-5-img") 
+    const cardSixthImg = document.querySelector("#card-6-img")
+
+    // Flip Functions
+
+    function flipRndOne() {
+        cardOneImg.src = `images/Cards/Fronts/${playingDeck.handOne[0].suit}_${playingDeck.handOne[0].type}.png` 
+        cardFourImg.src = `images/Cards/Fronts/${playingDeck.handTwo[0].suit}_${playingDeck.handTwo[0].type}.png`
+    }
+
+    function flipRndTwo() {
+
+        cardTwoImg.src = `images/Cards/Fronts/${playingDeck.handOne[1].suit}_${playingDeck.handOne[1].type}.png`
+        cardFifthImg.src = `images/Cards/Fronts/${playingDeck.handTwo[1].suit}_${playingDeck.handTwo[1].type}.png`
+
+    }
+    
+    function flipRndThree() {
+
+        cardThreeImg.src = `images/Cards/Fronts/${playingDeck.handOne[2].suit}_${playingDeck.handOne[2].type}.png`
+        cardSixthImg.src = `images/Cards/Fronts/${playingDeck.handTwo[2].suit}_${playingDeck.handTwo[2].type}.png`
+
+    }
+}
+
+//
+
 /* playingDeck.getShuffledDeck()
 playingDeck.getHandOne()
 playingDeck.getHandTwo()
@@ -364,7 +376,41 @@ function secondForfeit(playerNum, betOne) {
 
 }
 
+
 //End (Eric)
+
+// start button and 
+const $ = (selector) => document.querySelector(selector);
+
+function resetPlayer(){
+    $("#player-1").style.boxShadow = "none";
+    $("#player-2").style.boxShadow = "none";
+}
+
+function order() {
+    resetPlayer();
+    startGame();
+  let randomOrder = Math.random();
+  let currentPlayer = randomOrder < 0.5 ? "#player-1" : "#player-2";
+ $(currentPlayer).style.boxShadow = "0 0 5px 5px aliceblue";
+}
+
+function press(event){
+   event.target.style.borderLeft="none";
+   event.target.style.borderTop="none";
+
+}
+
+function release(event){
+    event.target.style.border="3px solid rgb(45, 45, 45)";
+}
+$("#start").addEventListener("click", order);
+$("#start").addEventListener("mousedown", press);
+$("#reset").addEventListener("mousedown", press);
+$("#start").addEventListener("mouseup", release);
+$("#reset").addEventListener("mouseup", release);
+
+$("#reset").addEventListener("mouseup", confirmReset);
 
 //reset button
 function confirmReset(){
