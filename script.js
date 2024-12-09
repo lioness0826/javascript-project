@@ -362,7 +362,7 @@ let hasPlayerTwoBet = false
 
 //End (Eric)
 
-// start button and 
+// start button (Yujie Chen)
 const $ = (selector) => document.querySelector(selector);
 
 function resetPlayer(){

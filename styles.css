@@ -1,5 +1,7 @@
 @import url('https://fonts.cdnfonts.com/css/arcade-classic');
 
+/* Yujie Chen
+DELILAH Adams */
 body{text-align: center;
     background-image: url(images/background.webp);
     /* background image is generated from AI */
@@ -50,7 +52,7 @@ position:absolute;
 
 #field-1{
     left: 2.5%;
-    top: 120px;
+    top: 100px;
     background: linear-gradient(to bottom, 
     #a994f8,#fb6bdc);
     color: aliceblue;
@@ -61,7 +63,7 @@ position:absolute;
 
 #field-2{
     right:2.5%;
-    top: 120px;
+    top: 100px;
     background: linear-gradient(to bottom, 
     #a994f8,#fb6bdc);
     color: aliceblue;
@@ -204,7 +206,7 @@ padding: 10px 0;}
     position: absolute;
     left: 0%;
     right: 0%;
-    top: 110%;
+    top: 100%;
     display: grid;
     grid-template-columns: 40% 40% ;
     grid-template-rows: 50px 50px;
@@ -276,4 +278,9 @@ background-color: #e41da0;}
 }
 #card-field-1 > div:hover, #card-field-2 > div:hover{
     width: 30%;
+}
+
+#container{
+    display: flex;
+    justify-content: center;
 }
