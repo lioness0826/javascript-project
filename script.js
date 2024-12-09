@@ -261,6 +261,9 @@ let roundTwoText = document.querySelector("#round-2")
 let pOneScoreText = document.querySelector("#tracker-1")
 let pTwoScoreText = document.querySelector("#tracker-2")
 
+let totalBet1 = document.querySelector("#total-bet-1")
+let totalBet2 = document.querySelector("#total-bet-2")
+
 
 function updateCounters() {
 
@@ -269,6 +272,9 @@ roundTwoText.textContent = `ROUND:`+roundNum
 
 pOneScoreText.textContent = pointCount.playerOne
 pTwoScoreText.textContent = pointCount.playerTwo
+
+totalBet1.textContent = bet.playerOne
+totalBet2.textContent = bet.playerTwo
 
 }
 
@@ -469,6 +475,7 @@ Betting system and flipping cards.
             } else if (bet.playerOne + betField1 <= pointCount.playerOne) {
                 setBet1()
                 hasPlayerOneBet = true
+                updateCounters()
 
                 if(hasPlayerTwoBet == true && roundNum == 1) {
                     console.log("Round Two")
@@ -505,6 +512,7 @@ Betting system and flipping cards.
             } else if (bet.playerTwo + betField2 <= pointCount.playerTwo) {
                 setBet2()
                 hasPlayerTwoBet = true
+                updateCounters()
 
                 if(hasPlayerOneBet == true && roundNum == 1) {
                     console.log("Round Two")
@@ -546,7 +554,7 @@ Betting system and flipping cards.
 function getWinner() {
 
     winner = playingDeck.getHandScores()
-    alert(`Player: ${winner} wins!`)
+
 
     let pointsAwarded = 0
 
@@ -567,6 +575,8 @@ function getWinner() {
     } else {
         alert("Game was a draw, no points will be awarded.")
     }
+
+    alert(`Player: ${winner} wins!`)
 
     updateCounters
 
