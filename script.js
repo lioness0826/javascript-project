@@ -229,10 +229,11 @@ class Deck {
 
             if (this.handOne[i].value > this.handTwo[i].value) {
                 handOneScore += 1
+                break
 
             } else if(this.handOne[i].value < this.handTwo[i].value) {
                 handTwoScore += 1
-
+                break
             }
 
             i--
@@ -249,26 +250,27 @@ class Deck {
 
     }
 
-}                
-
-const playingDeck = new Deck();
-
-//Game Start Function
-
-function startGame() {
-    playingDeck.getShuffledDeck()
-    playingDeck.getHandOne()
-    playingDeck.getHandTwo()
-    console.log(playingDeck.getHandScores())
-    
 }
 
-//
+// CSS / HTML Counters
 
-/* playingDeck.getShuffledDeck()
-playingDeck.getHandOne()
-playingDeck.getHandTwo()
-playingDeck.getHandScores() */
+
+let roundOneText = document.querySelector("#round-1")
+let roundTwoText = document.querySelector("#round-2")
+
+let pOneScoreText = document.querySelector("#tracker-1")
+let pTwoScoreText = document.querySelector("#tracker-2")
+
+
+function updateCounters() {
+
+roundOneText.textContent = `ROUND:`+roundNum
+roundTwoText.textContent = `ROUND:`+roundNum
+
+pOneScoreText.textContent = pointCount.playerOne
+pTwoScoreText.textContent = pointCount.playerTwo
+
+}
 
     // Query Selectors
 
@@ -298,10 +300,39 @@ playingDeck.getHandScores() */
 
         cardThreeImg.src = `images/Cards/Fronts/${playingDeck.handOne[2].suit}_${playingDeck.handOne[2].type}.png`
         cardSixthImg.src = `images/Cards/Fronts/${playingDeck.handTwo[2].suit}_${playingDeck.handTwo[2].type}.png`
-
+        getWinner()
     }
 
+//Game Initialization
 
+const playingDeck = new Deck();
+
+//Game Start Function
+
+function startGame() {
+    playingDeck.getShuffledDeck()
+    playingDeck.getHandOne()
+    playingDeck.getHandTwo()
+
+    flipRndOne();
+
+    cardTwoImg.src="images/Cards/red2.png"
+    cardThreeImg.src="images/Cards/red2.png"
+    cardFifthImg.src="images/Cards/red2.png"
+    cardSixthImg.src="images/Cards/red2.png"
+
+    updateCounters()
+    bet.playerOne = 0
+    bet.playerTwo = 0
+    roundNum = 1
+}
+
+//
+
+/* playingDeck.getShuffledDeck()
+playingDeck.getHandOne()
+playingDeck.getHandTwo()
+playingDeck.getHandScores() */
 
 
 //Point Variable Definitions
@@ -312,71 +343,22 @@ let pointCount = {
     playerTwo: 1000,
 
 }
-pointCount.playerOne
+
 
 // Bet Variable Initialization
 
-let betOne = {
+let bet = {
 
     playerOne: 0,
     playerTwo: 0
 
 }
 
-let betTwo = {
-    
-    playerOne: 0,
-    playerTwo: 0
-    
-    }
+// Round Counters
 
-
-let finalBet = {
-
-    playerOne: 0,
-    playerTwo: 0
-
-}
-
-finalBet.playerOne = betOne.playerOne + betTwo.playerOne;
-finalBet.playerTwo = betOne.playerTwo + betTwo.playerTwo;
-
-// Going to be using 'playerNum' to represent which player is having their points changed.
-
-//Function below is for deducting a hundred points from forfeiting in the first round.
-
-function startForfeit(playerNum) {
-
-    if (playerNum === 1) {
-        return pointCount.playerOne -= 100;
-    } else if (playerNum === 2) {
-        return pointCount.playerTwo -= 100;
-    }
-
-    playingDeck.emptyHand();
-    playingDeck.getShuffledDeck()
-
-}
-
-function secondForfeit(playerNum, betOne) {
-
-    if (playerNum === 1) {
-
-        pointCount.playerOne -= betOne.playerOne;
-        pointCount.playerTwo += betOne.playerOne;
-
-    } else if (playerNum === 2) {
-        
-        pointCount.playerTwo -= betOne.playerTwo;
-        pointCount.playerOne += betOne.playerTwo;
-
-    };
-
-    playingDeck.emptyHand();
-    playingDeck.getShuffledDeck();
-
-}
-
+let roundNum = 1
+let hasPlayerOneBet = false
+let hasPlayerTwoBet = false
 
 //End (Eric)
 
@@ -391,7 +373,6 @@ function resetPlayer(){
 function order() {
     resetPlayer();
     startGame();
-    flipRndOne();
   let randomOrder = Math.random();
   let currentPlayer = randomOrder < 0.5 ? "#player-1" : "#player-2";
  $(currentPlayer).style.boxShadow = "0 0 5px 5px aliceblue";
@@ -437,17 +418,202 @@ Lily
 
 Betting system and flipping cards.
 
-Get bets from HTML input and check that the second bet is not less than half of the first bet.
-
-Once both players have bet on round one, flip the second card and then let both players enter the bets again.
-
-After both players have bet on round two, flip the third card, and call 'playingDeck.getHandScores'.
-
-'1' means player one wins, '2' means player two wins, '0' means that no player has one.
-
-
-For flipping the cards, call flipRndTwo and flipRndThree
-
 */
 
 
+
+// const start= document.querySelector("#start")
+
+
+/*
+    document.addEventListener("DOMContentLoaded", ()=>{
+        start.addEventListener("click", ()=>{
+            console.log("Start button clicked");
+ 
+            flipRndOne();
+             return;
+        })
+   )
+     start.addEventListener("click", ()=>{
+         flipRndOne();
+    //     return;
+     })
+
+     */
+
+
+    $("#bet-button-1").addEventListener("click", checkBet1)
+    $("#bet-button-2").addEventListener("click", checkBet2)
+
+    function setBet1() {
+        bet.playerOne += parseInt(document.querySelector("#bet-1").value);
+        console.log(bet.playerOne)
+    }
+    function setBet2() {
+        bet.playerTwo +=parseInt(document.querySelector("#bet-2").value); 
+        console.log(bet.playerTwo)
+    }
+ 
+    //const bet_1_input= document.querySelector("#bet-1");
+    //const bet_2_input= document.querySelector("#bet-2");
+ 
+
+    function checkBet1() {
+
+        let betField1 = parseInt(document.querySelector("#bet-1").value)
+
+        if(betField1 + bet.playerOne < bet.playerTwo / 2){
+            alert("Player 1's bet must not be less than half of Player 2's bet.");
+            bet_1_input.focus();
+
+            } else if (bet.playerOne + betField1 <= pointCount.playerOne) {
+                setBet1()
+                hasPlayerOneBet = true
+
+                if(hasPlayerTwoBet == true && roundNum == 1) {
+                    console.log("Round Two")
+                    flipRndTwo()
+        
+                    roundNum += 1
+                    updateCounters()
+                    hasPlayerOneBet = false
+                    hasPlayerTwoBet = false
+        
+                } else if(hasPlayerTwoBet == true && roundNum == 2) {
+                    console.log("Round Three")
+                    flipRndThree()
+                    hasPlayerOneBet = false
+                    hasPlayerTwoBet = false
+                }
+
+            } else {
+                alert("Bet is higher than remaining points, please enter a smaller bet.")
+            }
+
+
+
+    }
+
+    function checkBet2(){
+
+        let betField2 = parseInt(document.querySelector("#bet-2").value)
+
+        if(betField2 + bet.playerTwo < bet.playerOne / 2){
+            alert("Player 2's bet must not be less than half of Player 1's bet.");
+            bet_2_input.focus();
+        
+            } else if (bet.playerTwo + betField2 <= pointCount.playerTwo) {
+                setBet2()
+                hasPlayerTwoBet = true
+
+                if(hasPlayerOneBet == true && roundNum == 1) {
+                    console.log("Round Two")
+                    flipRndTwo()
+    
+                    roundNum += 1
+                    updateCounters()
+                    hasPlayerOneBet = false
+                    hasPlayerTwoBet = false
+    
+                } else if(hasPlayerOneBet == true && roundNum == 2) {
+                    console.log("Round Three")
+                    flipRndThree()
+                    hasPlayerOneBet = false
+                    hasPlayerTwoBet = false
+                }
+
+            } else {
+                alert("Bet is higher than remaining points, please enter a smaller bet.")
+            }
+
+
+
+
+        }
+
+//flipRndTwo();
+//alert("Please bet your second round!")
+
+/*
+    if(!isNaN(bet_1) && !isNaN(bet_2) && bet_1 >0 && bet_2 >0){
+        flipRndThree();
+        playingDeck.getHandScores();
+    }
+*/
+
+// Get Winner (Eric)
+
+function getWinner() {
+
+    winner = playingDeck.getHandScores()
+    alert(`Player: ${winner} wins!`)
+
+    let pointsAwarded = 0
+
+    if (bet.playerOne < bet.playerTwo) {
+        pointsAwarded = bet.playerOne
+    } else if (bet.playerTwo < bet.playerOne) {
+        pointsAwarded = bet.playerTwo
+    } else {
+        pointsAwarded = bet.playerOne
+    }
+
+    if (winner === 1) {
+        pointCount.playerOne += pointsAwarded
+        pointCount.playerTwo -= pointsAwarded
+    } else if (winner === 2) {
+        pointCount.playerTwo += pointsAwarded
+        pointCount.playerOne -= pointsAwarded
+    } else {
+        alert("Game was a draw, no points will be awarded.")
+    }
+
+    updateCounters
+
+    playingDeck.emptyHand();
+    playingDeck.getShuffledDeck();
+
+
+
+}
+
+// Forfeit Buttons
+
+function forfeitOne() {
+
+    if(roundNum === 1) {
+        pointCount.playerOne -= 100
+        pointCount.playerTwo += 100
+    } else if (roundNum === 2) {
+        pointCount.playerOne -= bet.playerOne
+        pointCount.playerTwo += bet.playerTwo
+    } else {
+        alert("Error, cannot forfeit now.")
+    }
+
+    playingDeck.emptyHand()
+    startGame()
+
+}
+
+function forfeitTwo() {
+
+    if(roundNum === 1) {
+        pointCount.playerTwo -= 100
+        pointCount.playerOne += 100
+    } else if (roundNum === 2) {
+        pointCount.playerTwo -= bet.playerOne
+        pointCount.playerOne += bet.playerTwo
+    } else {
+        alert("Error, cannot forfeit now.")
+    }
+
+    playingDeck.emptyHand()
+    startGame()
+
+}
+
+
+
+document.querySelector("#fold-button-1").addEventListener("click", forfeitOne)
+document.querySelector("#fold-button-2").addEventListener("click", forfeitTwo)
